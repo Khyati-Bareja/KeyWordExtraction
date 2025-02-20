@@ -107,3 +107,67 @@ X = vectorizer.fit_transform([text])
 tfidf_scores = dict(zip(vectorizer.get_feature_names_out(), X.toarray()[0]))
 tfidf_keywords = sorted(tfidf_scores, key=tfidf_scores.get, reverse=True)[:3]
 print("Extracted Keywords:", tfidf_keywords)
+
+# ---------------------------------------------------------------
+# from sklearn.feature_extraction.text import TfidfVectorizer
+
+
+# # Step 1: Read text from the .docx file
+# file_path = "/Users/khyati/Documents/Resumes/DE_Zoomcamp/sample-work-DE/KeyWordExtraction/example_changed_test.docx"
+# doc = Document(file_path)
+# text = " ".join([para.text for para in doc.paragraphs if para.text.strip()])  # Extracted text
+
+
+
+# # Step 2: Load the exception list from Excel
+# exception_file = "/Users/khyati/Documents/Resumes/DE_Zoomcamp/sample-work-DE/KeyWordExtraction/Exception list Food and Beverages New.xlsx"
+# exception_df = pd.read_excel(exception_file, usecols=[2, 4])  # Read only 3rd and 5th columns
+
+# # Clean the exception list by removing numbered prefixes (e.g., '1. Keyword') and converting to lowercase
+# # exception_list = set(
+# #     exception_df.stack()
+# #     .dropna()
+# #     .astype(str)
+# #     .apply(lambda x: re.sub(r'^\d+\.\s*', '', x).strip().lower())  # Remove numbered prefixes like '1. '
+# # )
+# # print("Cleaned Exception List:", exception_list)
+
+
+# exception_df = pd.read_excel(exception_file, usecols=[2, 4])
+# exception_df = pd.read_excel(exception_file, usecols=[2, 4])  # Read only 3rd and 5th columns
+
+# # Clean the exception list by removing numbered prefixes (e.g., '1. Keyword') and converting to lowercase
+# exception_list = set(
+#     exception_df.stack()
+#     .dropna()
+#     .astype(str)
+#     .apply(lambda x: re.sub(r'^\d+\.\s*', '', x).strip().lower())  # Remove numbered prefixes like '1. '
+# )
+
+# vectorizer = TfidfVectorizer(ngram_range=(1, 2), stop_words="english")
+# X = vectorizer.fit_transform([text])
+
+# # Get feature names (words/phrases)
+# features = vectorizer.get_feature_names_out()
+
+# # Get TF-IDF scores for each feature
+# tfidf_scores = X.toarray().flatten()
+
+# # Create a DataFrame to hold the keywords and their corresponding TF-IDF scores
+# keywords_df = pd.DataFrame({
+#     'keyword': features,
+#     'score': tfidf_scores
+# })
+
+# # Step 4: Sort keywords by their TF-IDF score in descending order
+# keywords_df = keywords_df.sort_values(by='score', ascending=False)
+
+# # Step 5: Remove keywords that are in the exception list
+# valid_keywords = keywords_df[~keywords_df['keyword'].str.lower().isin(exception_list)]
+
+# # Step 6: Get the top valid keywords
+# top_valid_keywords = valid_keywords.head(10)  # Adjust the number of top keywords as needed
+
+# # Step 7: Display the results
+# print("Valid Keywords Extracted Using TF-IDF:")
+# print(top_valid_keywords)
